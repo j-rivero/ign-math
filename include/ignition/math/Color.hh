@@ -252,15 +252,9 @@ namespace ignition
         for (auto i : {0, 1, 2, 3})
         {
           if (i > 0)
-          {
             _out << " ";
-          }
 
-          // Avoid -0
-          if (std::fpclassify(_color[i]) == FP_ZERO)
-            _out << 0;
-          else
-            _out << _color[i];
+          appendToStream(_out, _color[i], 6);
         }
         return _out;
       }

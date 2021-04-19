@@ -333,7 +333,7 @@ TEST(Color, OperatorStreamOut)
   math::Color c(0.1f, 0.2f, 0.3f, 0.0f);
   std::ostringstream stream;
   stream << c;
-  EXPECT_EQ(stream.str(), "0.1 0.2 0.3 0.0");
+  EXPECT_EQ(stream.str(), "0.1 0.2 0.3 0");
 }
 
 /////////////////////////////////////////////////

@@ -811,15 +811,9 @@ namespace ignition
           for (auto j : {0, 1, 2, 3})
           {
             if (!(i == 0 && j == 0))
-            {
               _out << " ";
-            }
 
-            // Avoid -0
-            if (std::fpclassify(_m(i, j)) == FP_ZERO)
-              _out << 0;
-            else
-              _out << precision(_m(i, j), 6);
+            appendToStream(_out, _m(i, j), 6);
           }
         }
 
