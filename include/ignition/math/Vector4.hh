@@ -700,7 +700,19 @@ namespace ignition
       public: friend std::ostream &operator<<(
                   std::ostream &_out, const ignition::math::Vector4<T> &_pt)
       {
-        _out << _pt[0] << " " << _pt[1] << " " << _pt[2] << " " << _pt[3];
+        for (auto i : {0, 1, 2, 3})
+        {
+          if (i > 0)
+          {
+            _out << " ";
+          }
+
+          // Avoid -0
+          if (std::fpclassify(_pt[i]) == FP_ZERO)
+            _out << 0;
+          else
+            _out << precision(_pt[i], 6);
+        }
         return _out;
       }
 

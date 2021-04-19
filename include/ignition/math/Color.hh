@@ -131,6 +131,12 @@ namespace ignition
       /// returned if the _index is invalid
       public: float operator[](const unsigned int _index);
 
+      /// \brief Array index operator, const version
+      /// \param[in] _index Color component index(0=red, 1=green, 2=blue)
+      /// \return r, g, b, or a when _index is 0, 1, 2 or 3. A NAN_F value is
+      /// returned if the _index is invalid
+      public: float operator[](const unsigned int _index) const;
+
       /// \brief Get as uint32 RGBA packed value
       /// \return the color
       public: RGBA AsRGBA() const;
@@ -238,12 +244,24 @@ namespace ignition
 
       /// \brief Stream insertion operator
       /// \param[in] _out the output stream
-      /// \param[in] _pt the color
+      /// \param[in] _color the color
       /// \return the output stream
       public: friend std::ostream &operator<<(std::ostream &_out,
-                                              const Color &_pt)
+                                              const Color &_color)
       {
-        _out << _pt.r << " " << _pt.g << " " << _pt.b << " " << _pt.a;
+        for (auto i : {0, 1, 2, 3})
+        {
+          if (i > 0)
+          {
+            _out << " ";
+          }
+
+          // Avoid -0
+          if (std::fpclassify(_color[i]) == FP_ZERO)
+            _out << 0;
+          else
+            _out << _color[i];
+        }
         return _out;
       }
 

@@ -537,7 +537,19 @@ namespace ignition
       public: friend std::ostream
       &operator<<(std::ostream &_out, const Vector2<T> &_pt)
       {
-        _out << _pt[0] << " " << _pt[1];
+        for (auto i : {0, 1})
+        {
+          if (i > 0)
+          {
+            _out << " ";
+          }
+
+          // Avoid -0
+          if (std::fpclassify(_pt[i]) == FP_ZERO)
+            _out << 0;
+          else
+            _out << precision(_pt[i], 6);
+        }
         return _out;
       }
 

@@ -723,8 +723,20 @@ namespace ignition
       public: friend std::ostream &operator<<(
                   std::ostream &_out, const ignition::math::Vector3<T> &_pt)
       {
-        _out << precision(_pt[0], 6) << " " << precision(_pt[1], 6) << " "
-          << precision(_pt[2], 6);
+        for (auto i : {0, 1, 2})
+        {
+          if (i > 0)
+          {
+            _out << " ";
+          }
+
+          // Avoid -0
+          if (std::fpclassify(_pt[i]) == FP_ZERO)
+            _out << 0;
+          else
+            _out << precision(_pt[i], 6);
+        }
+
         return _out;
       }
 

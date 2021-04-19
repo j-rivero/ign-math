@@ -806,22 +806,22 @@ namespace ignition
       public: friend std::ostream &operator<<(
                   std::ostream &_out, const ignition::math::Matrix4<T> &_m)
       {
-        _out << precision(_m(0, 0), 6) << " "
-             << precision(_m(0, 1), 6) << " "
-             << precision(_m(0, 2), 6) << " "
-             << precision(_m(0, 3), 6) << " "
-             << precision(_m(1, 0), 6) << " "
-             << precision(_m(1, 1), 6) << " "
-             << precision(_m(1, 2), 6) << " "
-             << precision(_m(1, 3), 6) << " "
-             << precision(_m(2, 0), 6) << " "
-             << precision(_m(2, 1), 6) << " "
-             << precision(_m(2, 2), 6) << " "
-             << precision(_m(2, 3), 6) << " "
-             << precision(_m(3, 0), 6) << " "
-             << precision(_m(3, 1), 6) << " "
-             << precision(_m(3, 2), 6) << " "
-             << precision(_m(3, 3), 6);
+        for (auto i : {0, 1, 2, 3})
+        {
+          for (auto j : {0, 1, 2, 3})
+          {
+            if (!(i == 0 && j == 0))
+            {
+              _out << " ";
+            }
+
+            // Avoid -0
+            if (std::fpclassify(_m(i, j)) == FP_ZERO)
+              _out << 0;
+            else
+              _out << precision(_m(i, j), 6);
+          }
+        }
 
         return _out;
       }
